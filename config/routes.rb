@@ -4,21 +4,32 @@ Rails.application.routes.draw do
     post :mark_all_as_read, on: :collection
   end
 
-  root 'home#show'
+  #root 'home#show'
+  root 'home#index'
 
   match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
   get '/auth/failure' => 'sessions#new', error: true
   get '/signout' => 'sessions#destroy', as: :signout
   resource :session, only: [:new, :create, :destroy]
 
+  resources :home, only: [:index]
+ 
+  
+   
+  
   resource :profile, only: [:edit, :update]
   resource :public_comments, only: [:create], controller: :comments, type: 'PublicComment'
   resource :internal_comments, only: [:create], controller: :comments, type: 'InternalComment'
   resources :speakers, only: [:destroy]
   resources :proposals, only: [:index]
-  resources :events, only: [:index]
+  resources :events, only: [:index] do
+   resources :home, only: [:show]
+  end 
   scope '/events/:slug' do
     get '/' => 'events#show', as: :event
+        
+    #resources :sessions, only: [:show], as: :activities
+    post '/sessions' => 'sessions#show', as: :event_sessions
 
     post '/proposals' => 'proposals#create', as: :event_proposals
     get 'parse_edit_field' => 'proposals#parse_edit_field',

@@ -1,15 +1,18 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: localhost
   pool: 5
+  username: postgres
+  password: Francisca
 
 development:
   <<: *default
-  database: cfp_app_development
+  database: mb_app_development
 
 test:
   <<: *default
-  database: cfp_app_test
+  database: mb_app_test
 
 
 production:

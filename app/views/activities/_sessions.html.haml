@@ -1,0 +1,34 @@
+%header
+  %h3 Sessions
+
+
+%table#organizer-sessions.datatable.table.table-striped
+  %thead
+    %tr
+      %th
+      %th
+      %th
+      %th
+      %th
+      %th
+      %th
+      %th
+      %th
+    %tr
+      %th Conference Day
+      %th Start Time
+      %th End Time
+      %th Title
+      %th Presenter
+      %th Room
+      %th Track
+      %th ID
+      %th.actions Actions
+  %tbody
+    - @session.each do |session|
+      %tr{ id: "session_#{session.id}" }
+        - session.row_data.each do |cell|
+          %td= cell
+        %td.actions
+          = session.session_buttons
+
